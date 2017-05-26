@@ -44,8 +44,8 @@ Starting from scratch?  Let `test-c --init-project` get you up and running quick
 Here's what `tests/test_add.c` looks like in our project layout:
 
 ```c
-#include "test-c.h"
-#include "add.h"
+#include <test-c.h>
+#include <add.h>
 
 TEST_C_START(it_works)
   int sum = add(5, 6);
