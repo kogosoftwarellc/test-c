@@ -1,31 +1,124 @@
 #!/bin/bash
 
 dir="$PWD"
+testfiles=''
 includedir="$dir/include"
 srcdir="$dir/src"
 testdir="$dir/tests"
+
+code_bold="\x1b[1m"
+code_dim="\x1b[2m"
+code_green="\x1b[32m"
+code_red="\x1b[31m"
+code_reset_all="\x1b[0m"
+code_underlined="\x1b[4m"
 
 function error() {
   echo "$0: $1" >&2
 }
 
-if [[ ! -d "$testdir" ]]; then
-  error "$testdir was not a directory!"
-fi
+function ensure_directory() {
+  if [[ ! -d "$dir/$1" ]]; then
+    error "$1 was not a directory!"
+    error "You may wish to run test-c --init-project"
+    exit 1
+  fi
+}
 
-if [[ ! -d "$srcdir" ]]; then
-  error "$srcdir was not a directory!"
+function help() {
+echo -e "
+${code_underlined}test-c${code_reset_all}
+
+test-c is a minimal and robust script to facilitate C unit testing.
+
+${code_underlined}Usage${code_reset_all}:
+
+test-c [OPTIONS] [FILES]
+
+Without any OPTIONS or FILES test-c runs the test_*.c files under the tests/ directory.
+Generated test files are placed adjacent to their respective tests as .test_*.c.
+
+${code_underlined}Options${code_reset_all}:
+
+--help)
+
+  Print this menu.
+
+--init-project)
+
+  Initializes a project in the current directory as follows:
+
+  1) mkdir -p include src tests
+  2) Add ".test-*" to .gitignore if a .git directory exists.
+  3) ln -s ~/.test-c/test-c.h include/test-c.h
+
+${code_underlined}Documentation${code_reset_all}:
+
+https://github.com/kogosoftwarellc/test-c
+"
+}
+
+while [[ "$#" != '0' ]]; do
+  case "$1" in
+    --help)
+      help
+      exit;;
+    --init-project)
+      mkdir -p "$dir/include" "$dir/src" "$dir/tests"
+      rm -f "$dir/include/test-c.h"
+      ln -s ~/.test-c/test-c.h "$dir/include/test-c.h"
+
+      cat > "$srcdir/add.c" <<~
+#include "add.h"
+
+int add(int a, int b) {
+  return a + b;
+}
+~
+      cat > "$srcdir/add.h" <<~
+extern int add(int, int);
+~
+
+      cat > "$testdir/test_add.c" <<~
+#include <test.h>
+#include <add.h>
+
+TEST_START(it_works)
+  int sum = add(5, 6);
+  TEST_ASSERT_EQUAL(sum, 11);
+TEST_END
+~
+
+      if [[ -d "$dir/.git" ]]; then
+        if [[ -f "$dir/.gitignore" ]]; then
+          if [[ -z "`grep '\.test_*\.c' "$dir/.gitignore"`" ]]; then
+            echo '.test_*.c' >> "$dir/.gitignore"
+          else
+            echo '.test_*.c' > "$dir/.gitignore"
+          fi
+        fi
+      fi
+      test-c
+      exit;;
+    *)
+      testfiles="$testfiles $1"
+      shift 1;;
+  esac
+done
+
+ensure_directory include
+ensure_directory src
+ensure_directory tests
+
+if [[ -z "$testfiles" ]]; then
+  testfiles="`find "$testdir" -name 'test_*.c'`"
 fi
 
 sources="`find "$srcdir" -name '*.c'`"
 headers="`find "$srcdir" -name '*.h'`"
-tests="`find "$testdir" -name 'test_*.c'`"
-resetcode="\\x1b[0m"
-greencode="\\x1b[32m"
-redcode="\\x1b[31m"
 
 result=0
-for test in $tests;do
+for test in $testfiles;do
   tdir="$(dirname $test)"
   tfile="$(basename $test)"
   runs="`cat "$test" \
@@ -40,9 +133,9 @@ for test in $tests;do
 int __handle_test_result(char *name, int result) {
   char *prefix;
   if (result) {
-    prefix = "${redcode}FAIL${resetcode}";
+    prefix = "${code_red}FAIL${code_reset_all}";
   } else {
-    prefix = "${greencode}PASS${resetcode}";
+    prefix = "${code_red}PASS${code_reset_all}";
   }
 
   printf("[%8s] %s\n", prefix, name);
