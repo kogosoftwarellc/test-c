@@ -5,7 +5,7 @@ Shut up and [test some C]
 
 ## Why?
 
-* Because every other testing framework out there for C is a pain.
+* Because every other testing framework for C is a pain.
 
 ## Goals
 
