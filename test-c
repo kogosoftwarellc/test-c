@@ -144,7 +144,7 @@ int __handle_test_result(char *name, int result) {
   if (result) {
     prefix = "${code_red}FAIL${code_reset_all}";
   } else {
-    prefix = "${code_red}PASS${code_reset_all}";
+    prefix = "${code_green}PASS${code_reset_all}";
   }
 
   printf("[%8s] %s\n", prefix, name);
