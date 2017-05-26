@@ -47,10 +47,10 @@ Here's what `tests/test_add.c` looks like in our project layout:
 #include "test-c.h"
 #include "add.h"
 
-TEST_START(it_works)
+TEST_C_START(it_works)
   int sum = add(5, 6);
-  TEST_ASSERT_INT_EQUAL(sum, 11);
-TEST_END
+  TEST_C_ASSERT_INT_EQUAL(sum, 11);
+TEST_C_END
 ```
 
 ## Running

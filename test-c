@@ -87,10 +87,10 @@ extern int add(int, int);
 #include "test-c.h"
 #include "add.h"
 
-TEST_START(it_works)
+TEST_C_START(it_works)
   int sum = add(5, 6);
-  TEST_ASSERT_EQUAL(sum, 11);
-TEST_END
+  TEST_C_ASSERT_INT_EQUAL(sum, 11);
+TEST_C_END
 ~
 
       if [[ -d "$dir/.git" ]]; then
@@ -131,8 +131,8 @@ for test in $testfiles;do
   tdir="$(dirname $test)"
   tfile="$(basename $test)"
   runs="`cat "$test" \
-         | grep TEST_START \
-         | sed 's|^.*TEST_START(\([^)]\+\)).*$|  result += __handle_test_result("\1", \1());|g'`"
+         | grep TEST_C_START \
+         | sed 's|^.*TEST_C_START(\([^)]\+\)).*$|  result += __handle_test_result("\1", \1());|g'`"
 
   tmptestfile="$tdir/.$tfile"
 
