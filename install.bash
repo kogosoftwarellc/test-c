@@ -18,6 +18,7 @@ function error() {
 }
 
 download test-c
+chmod +x test-c
 download test-c.h
 download README.md
 download LICENSE
@@ -45,4 +46,6 @@ else
 export PATH="$testcdir:\$PATH"
 ~
   fi
+
+  echo "test-c is ready to use!"
 fi
