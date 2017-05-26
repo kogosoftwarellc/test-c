@@ -52,6 +52,10 @@ ${code_underlined}Options${code_reset_all}:
   2) Add ".test-*" to .gitignore if a .git directory exists.
   3) ln -s ~/.test-c/test-c.h include/test-c.h
 
+--update)
+
+  Updates test-c to the latest version.
+
 ${code_underlined}Documentation${code_reset_all}:
 
 https://github.com/kogosoftwarellc/test-c
@@ -99,6 +103,11 @@ TEST_END
         fi
       fi
       test-c
+      exit;;
+    --update)
+      curl -sk \
+        https://raw.githubusercontent.com/kogosoftwarellc/test-c/master/install.bash \
+        | bash
       exit;;
     *)
       testfiles="$testfiles $1"
