@@ -1,0 +1,74 @@
+#!/bin/bash
+
+dir="$PWD"
+includedir="$dir/include"
+srcdir="$dir/src"
+testdir="$dir/tests"
+
+function error() {
+  echo "$0: $1" >&2
+}
+
+if [[ ! -d "$testdir" ]]; then
+  error "$testdir was not a directory!"
+fi
+
+if [[ ! -d "$srcdir" ]]; then
+  error "$srcdir was not a directory!"
+fi
+
+sources="`find "$srcdir" -name '*.c'`"
+headers="`find "$srcdir" -name '*.h'`"
+tests="`find "$testdir" -name 'test_*.c'`"
+resetcode="\\x1b[0m"
+greencode="\\x1b[32m"
+redcode="\\x1b[31m"
+
+result=0
+for test in $tests;do
+  tdir="$(dirname $test)"
+  tfile="$(basename $test)"
+  runs="`cat "$test" \
+         | grep TEST_START \
+         | sed 's|^.*TEST_START(\([^)]\+\)).*$|  result += __handle_test_result("\1", \1());|g'`"
+
+  tmptestfile="$tdir/.$tfile"
+
+  cat > "$tmptestfile" <<~
+`cat $test`
+
+int __handle_test_result(char *name, int result) {
+  char *prefix;
+  if (result) {
+    prefix = "${redcode}FAIL${resetcode}";
+  } else {
+    prefix = "${greencode}PASS${resetcode}";
+  }
+
+  printf("[%8s] %s\n", prefix, name);
+  return result;
+}
+
+int main(void) {
+  int result = 0;
+$runs
+  return result;
+}
+~
+
+  exe="./${tmptestfile}.exe"
+  echo "Running ${test}..."
+  gcc -o "$exe" -I"$srcdir" -I"$includedir" "$sources" "$tmptestfile"
+  "$exe"
+  testresult=$?
+
+  if [[ $testresult ]]; then
+    result=$(($result + $testresult))
+  fi
+  rm "$exe"
+done
+
+if [[ "$result" != '0' ]]; then
+  error "$result test[s] failed!"
+  exit $result
+fi
