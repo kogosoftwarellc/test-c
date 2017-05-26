@@ -158,7 +158,7 @@ $runs
 }
 ~
 
-  exe="./${tmptestfile}.exe"
+  exe="${tmptestfile}.exe"
   echo "Running ${test}..."
   gcc -o "$exe" -I"$srcdir" -I"$includedir" "$sources" "$tmptestfile"
   "$exe"
