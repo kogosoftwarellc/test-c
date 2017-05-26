@@ -4,6 +4,8 @@ set -e
 
 testcdir="$HOME/.test-c"
 
+mkdir -p "$testcdir"
+
 cd "$testcdir"
 
 function download() {
