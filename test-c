@@ -80,7 +80,7 @@ extern int add(int, int);
 ~
 
       cat > "$testdir/test_add.c" <<~
-#include "test.h"
+#include "test-c.h"
 #include "add.h"
 
 TEST_START(it_works)

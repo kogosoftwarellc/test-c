@@ -44,7 +44,7 @@ Starting from scratch?  Let `test-c --init-project` get you up and running quick
 Here's what `tests/test_add.c` looks like in our project layout:
 
 ```c
-#include "test.h"
+#include "test-c.h"
 #include "add.h"
 
 TEST_START(it_works)
