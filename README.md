@@ -7,6 +7,14 @@ Shut up and [test some C]
 
 * Because every other testing framework for C is a pain.
 
+## Installing
+
+```
+curl -sk https://raw.githubusercontent.com/kogosoftwarellc/test-c/master/install.bash | bash
+```
+
+Once that completes, you'll have `~/.test-c/test-c` available in your `PATH`.
+
 ## Goals
 
 * Make C Unit Testing fast, easy, and fun.
@@ -29,6 +37,8 @@ test-c assumes a project layout similar to the following:
     └── test_add.c
 ```
 
+Starting from scratch?  Let `test-c --init-project` get you up and running quickly.
+
 ## Sample Test
 
 Here's what `tests/test_add.c` looks like in our project layout:
@@ -37,29 +47,19 @@ Here's what `tests/test_add.c` looks like in our project layout:
 #include "test.h"
 #include "add.h"
 
-TEST_START(it_works_oh_yea)
+TEST_START(it_works)
   int sum = add(5, 6);
   TEST_ASSERT_INT_EQUAL(sum, 11);
 TEST_END
-
-TEST_START(it_works)
-  TEST_ASSERT_INT_EQUAL(6, 6);
-TEST_END
 ```
-
-## Installing
-
-```
-curl -sk https://raw.githubusercontent.com/kogosoftwarellc/test-c/master/install.bash | bash
-```
-
-Once that completes, you'll have `~/.test-c/test-c` available in your `PATH`.
 
 ## Running
 
 ```
-test-c --help
+test-c [OPTIONS] [FILES]
 ```
+
+See `test-c --help` for the full list of options.
 
 ## LICENSE
 
