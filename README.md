@@ -53,6 +53,10 @@ TEST_C_START(it_works)
 TEST_C_END
 ```
 
+Now when we run `test-c` at the root of our project, we see this:
+
+![running test-c][terminal-run]
+
 ## Running
 
 ```
@@ -64,3 +68,5 @@ See `test-c --help` for the full list of options.
 ## LICENSE
 
 [MIT](./LICENSE)
+
+[terminal-run]: ./test-c.jpg
