@@ -1,5 +1,5 @@
 # test-c
-> Minimal and robust test framework to facilitate  C unit testing.
+> A robust and minimal test framework to facilitate C unit testing.
 
 Shut up and [test some C]
 
