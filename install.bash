@@ -32,6 +32,10 @@ if [[ ! -f "$HOME/.bashrc" ]]; then
     sessionfile=".profile"
   elif [[ -f "$HOME/.bash_aliases" ]]; then
     sessionfile=".bash_aliases"
+  elif [[ -f "$HOME/.bash_profile" ]]; then
+    sessionfile=".bash_profile"
+  elif [[ -f "$HOME/.zshrc" ]]; then
+    sessionfile=".zshrc"
   fi
 fi
 
