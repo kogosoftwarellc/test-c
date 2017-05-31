@@ -162,7 +162,7 @@ $runs
   echo ''
   echo -e "${code_bold}Running .`echo "$test" | sed "s|$dir||"`${code_reset_all}"
   echo ''
-  gcc -o "$exe" -I"$srcdir" -I"$includedir" "$sources" "$tmptestfile"
+  gcc -o "$exe" -I"$srcdir" -I"$includedir" $sources "$tmptestfile"
   "$exe"
   echo ''
   testresult=$?
