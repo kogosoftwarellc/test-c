@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 dir="$PWD"
 testfiles=''
 includedir="$dir/include"
@@ -157,7 +159,7 @@ int __handle_test_result(char *name, int result) {
     prefix = "${code_green}PASS${code_reset_all}";
   }
 
-  printf("[%8s] %s\n", prefix, name);
+  printf(" [%8s] %s\n", prefix, name);
   return result;
 }
 
@@ -170,7 +172,7 @@ $runs
 
   exe="${tmptestfile}.exe"
   echo ''
-  echo -e "${code_bold}Running .`echo "$test" | sed "s|$dir||"`${code_reset_all}"
+  echo -e " ${code_bold}Running .`echo "$test" | sed "s|$dir||"`${code_reset_all}"
   echo ''
   gcc -o "$exe" -I"$srcdir" -I"$includedir" $sources "$tmptestfile"
   "$exe"
