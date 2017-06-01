@@ -42,11 +42,11 @@ Generated test files are placed adjacent to their respective tests as .test_*.c.
 
 ${code_underlined}Options${code_reset_all}:
 
---help)
+--help, -h)
 
   Print this menu.
 
---init-project)
+--init-project, -i)
 
   Initializes a project in the current directory as follows:
 
@@ -54,11 +54,11 @@ ${code_underlined}Options${code_reset_all}:
   2) Add ".test-*" to .gitignore if a .git directory exists.
   3) ln -s ~/.test-c/test-c.h include/test-c.h
 
---update)
+--update, -u)
 
   Updates test-c to the latest version.
 
---watch)
+--watch, -w)
 
   Watches the current directory for changes to non-hidden files (currently requires inotifywait).
   When a change is found test-c runs the tests specified by FILES.
@@ -71,10 +71,10 @@ https://github.com/kogosoftwarellc/test-c
 
 while [[ "$#" != '0' ]]; do
   case "$1" in
-    --help)
+    --help|-h)
       help
       exit;;
-    --init-project)
+    --init-project|-i)
       mkdir -p "$dir/include" "$dir/src" "$dir/tests"
       rm -f "$dir/include/test-c.h"
       ln -s ~/.test-c/test-c.h "$dir/include/test-c.h"
@@ -111,10 +111,10 @@ TEST_C_END
       fi
       test-c
       exit;;
-    --watch)
+    --watch|-w)
       watchmode='1'
       shift 1;;
-    --update)
+    --update|-u)
       curl -sk \
         https://raw.githubusercontent.com/kogosoftwarellc/test-c/master/install.bash \
         | bash
