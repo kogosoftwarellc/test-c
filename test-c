@@ -181,8 +181,7 @@ $runs
   gcc -o "$exe" -I"$srcdir" -I"$includedir" $sources "$tmptestfile" || true
 
   if [[ -f "$exe" ]]; then
-    "$exe"
-    testresult=$?
+    "$exe" && testresult=$? || testresult=$?
     echo ''
 
     if [[ $testresult ]]; then

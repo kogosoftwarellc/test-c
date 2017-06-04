@@ -11,8 +11,9 @@
     return TEST_C_PASSED; \
   }
 
-#define TEST_C_ASSERT_INT_EQUAL(a, b) \
-  if (a != b) { \
+#define TEST_C_ASSERT_INT_EQUAL(expected, actual) \
+  if (expected != actual) { \
+    printf("TEST_C_ASSERT_INT_EQUAL failed!  Expected to find %d but was %d\n", expected, actual); \
     return TEST_C_FAILED; \
   }
 #endif
