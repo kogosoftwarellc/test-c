@@ -138,6 +138,10 @@ fi
 sources="`find "$srcdir" -name '*.c'`"
 headers="`find "$srcdir" -name '*.h'`"
 
+if [[ -n "$watchmode" ]]; then
+  echo -e "$code_terminal_reset"
+fi
+
 result=0
 for test in $testfiles;do
   tdir="$(dirname $test)"
