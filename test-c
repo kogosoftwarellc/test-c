@@ -3,6 +3,7 @@
 set -e
 
 dir="$PWD"
+testcrc="$dir/.testcrc"
 testfiles=''
 includedir="$dir/include"
 srcdir="$dir/src"
@@ -81,6 +82,13 @@ while [[ "$#" != '0' ]]; do
       rm -f "$dir/include/test-c.h"
       ln -s ~/.test-c/test-c.h "$dir/include/test-c.h"
 
+      cat > "$testcrc" <<~
+# This file is sourced by test-c.
+
+# You can add gcc flags after the source and test files e.g. -lssl
+export TESTC_LD_OPTIONS=""
+~
+
       cat > "$srcdir/add.c" <<~
 #include "add.h"
 
@@ -142,6 +150,10 @@ if [[ -n "$watchmode" ]]; then
   echo -e "$code_terminal_reset"
 fi
 
+if [[ -f "$testcrc" ]]; then
+  source "$testcrc"
+fi
+
 result=0
 for test in $testfiles;do
   tdir="$(dirname $test)"
@@ -178,7 +190,7 @@ $runs
   echo ''
   echo -e " ${code_bold}Running .`echo "$test" | sed "s|$dir||"`${code_reset_all}"
   echo ''
-  gcc -o "$exe" -I"$srcdir" -I"$includedir" $sources "$tmptestfile" || true
+  gcc -o "$exe" -I"$srcdir" -I"$includedir" $sources "$tmptestfile" "$TESTC_LD_OPTIONS" || true
 
   if [[ -f "$exe" ]]; then
     "$exe" && testresult=$? || testresult=$?

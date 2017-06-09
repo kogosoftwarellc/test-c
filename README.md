@@ -28,6 +28,7 @@ Once that completes, you'll have `~/.test-c/test-c` available in your `PATH`.
 test-c assumes a project layout similar to the following:
 ```
 .
+├── .testcrc
 ├── include
 ├── README.md
 ├── src
@@ -64,6 +65,13 @@ test-c [OPTIONS] [FILES]
 ```
 
 See `test-c --help` for the full list of options.
+
+### .testcrc
+
+You can add a `.testcrc` file to the root of your project.  This file will be
+sourced by `test-c`.  You can export environment variables as follows:
+
+* `export TESTC_LD_OPTIONS="-lssl"`
 
 ## LICENSE
 
