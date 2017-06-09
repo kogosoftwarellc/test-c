@@ -41,19 +41,19 @@ curl -sk \
 newsha="`cat $shafile`"
 newsha="${newsha:0:7}"
 
-sessionfile=".bashrc"
+sessionfile=".bash_profile"
 
-if [[ ! -f "$HOME/.bashrc" ]]; then
+if [[ ! -f "$HOME/.bash_profile" ]]; then
   sessionfile=''
 
   if [[ -f "$HOME/.profile" ]]; then
     sessionfile=".profile"
   elif [[ -f "$HOME/.bash_aliases" ]]; then
     sessionfile=".bash_aliases"
-  elif [[ -f "$HOME/.bash_profile" ]]; then
-    sessionfile=".bash_profile"
   elif [[ -f "$HOME/.zshrc" ]]; then
     sessionfile=".zshrc"
+  elif [[ -f "$HOME/.bashrc" ]]; then
+    sessionfile=".bashrc"
   fi
 fi
 
