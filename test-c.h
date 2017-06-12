@@ -12,6 +12,12 @@
     return TEST_C_PASSED; \
   }
 
+#define TEST_C_ASSERT_CHAR_EQUAL(expected, actual) \
+  if (expected != actual) { \
+    printf("TEST_C_ASSERT_CHAR_EQUAL failed!  Expected %c was given %c\n", expected, actual); \
+    return TEST_C_FAILED; \
+  }
+
 #define TEST_C_ASSERT_INT_EQUAL(expected, actual) \
   if (expected != actual) { \
     printf("TEST_C_ASSERT_INT_EQUAL failed!  Expected %d was given %d\n", expected, actual); \
