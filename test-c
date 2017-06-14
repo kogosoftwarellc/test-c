@@ -45,6 +45,10 @@ Generated test files are placed adjacent to their respective tests as .test_*.c.
 
 ${code_underlined}Options${code_reset_all}:
 
+--copy-header, -c)
+
+  Copy test-c.h to the include directory.
+
 --help, -h)
 
   Print this menu.
@@ -74,13 +78,17 @@ https://github.com/kogosoftwarellc/test-c
 
 while [[ "$#" != '0' ]]; do
   case "$1" in
+    --copy-header|-c)
+      rm -f "$dir/include/test-c.h"
+      cp -f ~/.test-c/test-c.h "$dir/include/test-c.h"
+      shift 1;;
     --help|-h)
       help
       exit;;
     --init-project|-i)
       mkdir -p "$dir/include" "$dir/src" "$dir/tests"
       rm -f "$dir/include/test-c.h"
-      ln -s ~/.test-c/test-c.h "$dir/include/test-c.h"
+      cp -f ~/.test-c/test-c.h "$dir/include/test-c.h"
 
       cat > "$testcrc" <<~
 # This file is sourced by test-c.
