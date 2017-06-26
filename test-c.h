@@ -24,6 +24,18 @@
     return TEST_C_FAILED; \
   }
 
+#define TEST_C_ASSERT_LONG_EQUAL(expected, actual) \
+  if (expected != actual) { \
+    printf("TEST_C_ASSERT_LONG_EQUAL failed!  Expected %ld was given %ld\n", expected, actual); \
+    return TEST_C_FAILED; \
+  }
+
+#define TEST_C_ASSERT_NOT_NULL(test, msg) \
+  if (test == NULL) { \
+    printf("TEST_C_ASSERT_NOT_NULL failed!  %s\n", msg); \
+    return TEST_C_FAILED; \
+  }
+
 #define TEST_C_ASSERT_STRING_EQUAL(expected, actual) \
   if (strcmp(expected, actual)) { \
     printf("TEST_C_ASSERT_STRING_EQUAL failed!  Expected %s was given %s\n", expected, actual); \
