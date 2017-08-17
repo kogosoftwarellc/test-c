@@ -24,6 +24,30 @@
     return TEST_C_FAILED; \
   }
 
+#define TEST_C_ASSERT_INT_GT(min, actual) \
+  if (actual <= min) { \
+    printf("TEST_C_ASSERT_INT_GT failed!  Expected %d to be greater than %d\n", actual, min); \
+    return TEST_C_FAILED; \
+  }
+
+#define TEST_C_ASSERT_INT_GTEQ(min, actual) \
+  if (actual < min) { \
+    printf("TEST_C_ASSERT_INT_GT failed!  Expected %d to be greater than or equal to %d\n", actual, min); \
+    return TEST_C_FAILED; \
+  }
+
+#define TEST_C_ASSERT_INT_LT(min, actual) \
+  if (actual >= min) { \
+    printf("TEST_C_ASSERT_INT_GT failed!  Expected %d to be less than %d\n", actual, min); \
+    return TEST_C_FAILED; \
+  }
+
+#define TEST_C_ASSERT_INT_LTEQ(min, actual) \
+  if (actual > min) { \
+    printf("TEST_C_ASSERT_INT_GT failed!  Expected %d to be less than or equal to %d\n", actual, min); \
+    return TEST_C_FAILED; \
+  }
+
 #define TEST_C_ASSERT_LONG_EQUAL(expected, actual) \
   if (expected != actual) { \
     printf("TEST_C_ASSERT_LONG_EQUAL failed!  Expected %ld was given %ld\n", expected, actual); \
