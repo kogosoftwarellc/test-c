@@ -9,7 +9,8 @@ mkdir -p "$testcdir"
 cd "$testcdir"
 
 function download() {
-  curl -sk "https://raw.githubusercontent.com/kogosoftwarellc/test-c/master/$1" \
+  curl -sk -H 'Cache-Control: no-cache' \
+    "https://raw.githubusercontent.com/kogosoftwarellc/test-c/master/$1?`date +%N`" \
     | tee "$1" > /dev/null
 }
 
