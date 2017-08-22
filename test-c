@@ -18,6 +18,14 @@ code_reset_all="\x1b[0m"
 code_terminal_reset="\033c"
 code_underlined="\x1b[4m"
 
+function compilation_failed() {
+  echo "$1 Failed to compile. (See the output ^^)"
+
+  if [[ -z "$watchmode" ]]; then
+    exit 1
+  fi
+}
+
 function error() {
   echo "$0: $1" >&2
 }
@@ -198,7 +206,8 @@ $runs
   echo ''
   echo -e " ${code_bold}Running .`echo "$test" | sed "s|$dir||"`${code_reset_all}"
   echo ''
-  gcc -o "$exe" -I"$srcdir" -I"$includedir" $sources "$tmptestfile" $TESTC_LD_OPTIONS || true
+  gcc -o "$exe" -I"$srcdir" -I"$includedir" $sources "$tmptestfile" $TESTC_LD_OPTIONS \
+    || compilation_failed "$testdir/$tfile"
 
   if [[ -f "$exe" ]]; then
     "$exe" && testresult=$? || testresult=$?
