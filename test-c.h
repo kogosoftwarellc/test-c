@@ -54,6 +54,12 @@
     return TEST_C_FAILED; \
   }
 
+#define TEST_C_ASSERT_NULL(test, msg) \
+  if (test != NULL) { \
+    printf("TEST_C_ASSERT_NULL failed!  %s\n", msg); \
+    return TEST_C_FAILED; \
+  }
+
 #define TEST_C_ASSERT_NOT_NULL(test, msg) \
   if (test == NULL) { \
     printf("TEST_C_ASSERT_NOT_NULL failed!  %s\n", msg); \
