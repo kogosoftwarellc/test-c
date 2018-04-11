@@ -72,4 +72,11 @@
     return TEST_C_FAILED; \
   }
 
+#define TEST_C_ASSERT_STRING_STARTS_WITH(string, proposal) \
+  if (strstr(string, proposal) != string) { \
+    printf("TEST_C_ASSERT_STRING_STARTS_WITH failed!  Expected %s to begin with %s\n", string, proposal); \
+    return TEST_C_FAILED; \
+  }
+
+
 #endif
