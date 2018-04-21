@@ -88,6 +88,7 @@ while [[ "$#" != '0' ]]; do
   case "$1" in
     --copy-header|-c)
       rm -f "$dir/include/test-c.h"
+      mkdir -p "$dir/include"
       cp -f ~/.test-c/test-c.h "$dir/include/test-c.h"
       shift 1;;
     --help|-h)
@@ -127,12 +128,15 @@ TEST_C_END
 ~
 
       if [[ -d "$dir/.git" ]]; then
-        if [[ -f "$dir/.gitignore" ]]; then
-          if [[ -z "`grep '\.test_*\.c' "$dir/.gitignore"`" ]]; then
-            echo '.test_*.c' >> "$dir/.gitignore"
-          else
-            echo '.test_*.c' > "$dir/.gitignore"
-          fi
+        if [[ ! -f "$dir/.gitignore" ]]; then
+          touch "$dir/.gitignore"
+        fi
+
+        if [[ -z "`grep '\.test_*\.c' "$dir/.gitignore"`" ]]; then
+          cat >> "$dir/.gitignore" <<~
+.test_*.c
+include/test-c.h
+~
         fi
       fi
       test-c
